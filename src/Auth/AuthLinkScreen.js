@@ -30,7 +30,7 @@ class AuthLinkScreen extends React.Component {
                     <Text style={{color: '#5b696c', textTransform: 'capitalize'}}>Login</Text>
                   </Button>
                   <Button
-                    onPress={() => this.props.navigation.navigate('SignUp')}
+                    onPress={() => this.props.navigation.navigate('Verify')}
                     block primary large style={styles.filled}>
                     <Text style={{textTransform: 'capitalize'}}>Sign up</Text>
                   </Button>

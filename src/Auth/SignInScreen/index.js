@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Button, Container, Content, Text, H1, Input, Form, Item } from 'native-base';
 import { StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
-import authActions from '../redux/auth/actions';
+import authActions from '../../redux/auth/actions';
 import { connect } from 'react-redux';
-import Auth from '../Services/Auth';
-import Utility from '../Services/Utility';
+import Auth from '../../Services/Auth';
+import Utility from '../../Services/Utility';
+import styles from './styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-const loginBg = './../Assets/Images/auth/login-bg.png';
-const bursarText = './../Assets/Images/intro/Bursar.png';
+const loginBg = './../../Assets/Images/auth/login-bg.png';
 // 0.58.5 - rn version
 // distributionUrl=https\://services.gradle.org/distributions/gradle-4.7-all.zip
 
@@ -53,10 +54,22 @@ class SignInScreen extends React.Component {
         return;
       }
       this.props.clearSignin({error: true, message: 'Signing in...'});
-      Auth.login(this.state)
+      Auth.requestToken(this.state)
+      .then( resp => {
+        this.props.setAccessToken(resp.access_token);
+        return resp.access_token
+       } )
+      .then( token => Auth.signin(token).then( sign => sign) )
         .then( response => {
             if(response && !response.error) {
                 this.props.navigation.navigate('App');
+                const o = {
+                    error: false,
+                    data: response.onboard
+                }
+                this.props.addOnboard(o);
+                this.props.addSignup({error: false, data: response.user});
+                this.props.addCo6s(response.co6s);
                 this.props.clearSignin(response);
             } else {
               this.props.clearSignin({error: true, message: 'Invalid email or password'});
@@ -79,7 +92,9 @@ class SignInScreen extends React.Component {
               imageStyle={{resizeMode: 'stretch'}}
               style={styles.bgImage}
           >
+            <KeyboardAwareScrollView>
               <Content contentContainerStyle={styles.content}>
+
               <View style={styles.formView}>
                 <Text style={styles.errorText}>{Utility.isset(this.props.signin)? this.props.signin.message: 'error holder'}</Text>
                 <Form style={styles.form}>
@@ -90,7 +105,7 @@ class SignInScreen extends React.Component {
                     />
                   </Item>
                   <Item style={styles.inputPassword}>
-                    <Input outlined placeholder="Password"  style={{color: '#5b696c',}}
+                    <Input outlined secureTextEntry={true} placeholder="Password"  style={{color: '#5b696c',}}
                       onChangeText={this.handleChange('password')}
                       value={this.state.password}
                     />
@@ -103,14 +118,16 @@ class SignInScreen extends React.Component {
                   <TouchableOpacity style={{cursor: 'pointer'}}>
                     <Text style={{color: '#5b696c',}}>Forgot password?</Text>
                   </TouchableOpacity>
-                </View>                 
-              </View>
-              <View style={styles.register}>
-                <Button full large 
-                  onPress={() => this.props.navigation.navigate('SignUp')}
-                  style={styles.registerBtn}><Text style={styles.registerText}>Register</Text></Button>
+                </View>
+                <View style={styles.register}>
+                <Text>Not registered? </Text>
+                <Button transparent 
+                  onPress={() => this.props.navigation.navigate('Verify')}
+                  style={styles.registerBtn}><Text style={styles.registerText}>Register</Text></Button> 
+                </View>                
               </View>
               </Content>
+              </KeyboardAwareScrollView>
           </ImageBackground> 
       </Container>
       );
@@ -121,99 +138,6 @@ class SignInScreen extends React.Component {
       this.props.navigation.navigate('App');
     };
   }
-
-const styles = StyleSheet.create({
-  content: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    position: 'relative',
-    padding: 0,
-    margin: 0,
-    width: deviceWidth,
-  },
-  bgImage: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    flex: 1,
-  },
-  formView: {
-    width: deviceWidth * 0.9,
-    //borderColor: '#64493c',
-    //borderStyle: 'solid',
-    //borderWidth: 1,
-    //padding: 10,
-    //borderRadius: 20,
-  },
-  form: {
-    //flex: 1,
-    borderColor: '#5b696c',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 20,
-  },
-  inputItem: {
-    margin: 0,
-    borderBottomColor: '#5b696c',
-    borderStyle: 'solid',
-    borderBottomWidth: 1,
-    color: '#5b696c',
-  },
-  inputPassword: {
-    margin: 0,
-    borderBottomColor: 'transparent',
-    borderStyle: 'solid',
-    borderBottomWidth: 0,
-    color: '#5b696c',
-  },
-  register: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  registerBtn: {
-    width: '100%',
-    backgroundColor: '#5b696c',
-  },
-  registerText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 20,
-    textTransform: 'capitalize',
-  },
-  controls: {
-    padding: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    
-  },
-  loginBtn: {
-    backgroundColor: '#5b696c',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  loginText: {
-    color: '#ffffff',
-    fontWeight: '400',
-    textTransform: 'capitalize',
-    display: 'flex',
-    zIndex: 20,
-    fontSize: 20,
-  },
-  errorText: {
-    color: 'red',
-    textAlign: 'center',
-    margin: 20,
-    fontSize: 20,
-  }
-  
-});
 
 const mapStateToProps = state => {
   return {
@@ -228,6 +152,18 @@ const mapDispatchToProps = dispatch => {
     },
     clearSignin: form => {
       dispatch(authActions.signin(form));
+    },
+    addOnboard: data => {
+      dispatch(authActions.addOnboard(data));
+    },
+    addSignup: data => {
+      dispatch(authActions.addSignup(data));
+    },
+    setAccessToken: token => {
+      dispatch(authActions.setAccessToken(token));
+    },
+    addCo6s: co6s => {
+      dispatch(authActions.addCo6s(co6s));
     }
   }
 }

@@ -2,6 +2,10 @@ import React from 'react';
 import { View, Button, Container, Content, Text, Item, Form, Input, Picker, Icon, Label, Grid, Col} from 'native-base';
 import { StyleSheet, Image, ImageBackground, Dimensions, Alert} from 'react-native';
 import Auth from '../Services/Auth';
+import authActions from '../redux/auth/actions';
+import { connect } from 'react-redux';
+import Utility from '../Services/Utility';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const loginBg = './../Assets/Images/auth/login-bg.png';
 const bursarText = './../Assets/Images/intro/Bursar.png';
@@ -32,19 +36,26 @@ class SignUpScreen extends React.Component {
         year: '',
         days: 31,
         prevDay: '',
+        redirect: false,
       }
 
       this.renderYears = this.renderYears.bind(this);
     }
 
     componentDidMount() {
-      this.setState({years: this.renderYears()});
+      this.props.clearSignup();
+      this.setState({years: this.renderYears(), redirect: false});
+      this.setState({organization_id: this.props.navigation.getParam('organization_id')});
     }
 
     onInputChange(key, value) {
       this.setState({
         [key]: value,
       });
+    }
+
+    onSelectChange(key, value) {
+      this.setState({[key]: value});
     }
 
     onDateChange(key, value) {
@@ -76,7 +87,7 @@ class SignUpScreen extends React.Component {
     } 
 
     signup = () => {
-      const { email, password, phone } = this.state;
+      const { email, password, phone, firstname } = this.state;
       if(!email || !password || !phone) {
         Alert.alert("Missing info", "Please enter all required fields");
         return;
@@ -86,14 +97,21 @@ class SignUpScreen extends React.Component {
       data.email = email;
       data.password = password;
       data.phone = phone;
+      data.firstname = firstname;
       data.username = '';
-      console.log(data);
+      data.organization_id = this.state.organization_id;
+      //console.log(data);
       //Auth.signup(data)
-      this.props.navigation.navigate('Biodata');
+      this.setState({redirect: true});
+      this.props.handleSignup(data);
+      //this.props.navigation.navigate('Biodata');
       //fetch('http://453197b3.ngrok.io/api/create-user').then( resp => console.log(resp)).catch( err => console.log(err));
     };
   
     render() {
+      if(this.state.redirect && this.props.auth.signup.error === false) {
+        this.props.navigation.navigate('Co6');
+      }
       let fullYear = parseInt((new Date()).getFullYear()) -18;
       return (
         <Container style={styles.container}>
@@ -102,40 +120,49 @@ class SignUpScreen extends React.Component {
               imageStyle={{resizeMode: 'stretch'}}
               style={styles.bgImage}
           >
+            <KeyboardAwareScrollView>
               <Content contentContainerStyle={styles.content}>
                 
-                <View>
-                  <View style={styles.wrapper}>
+                <View style={{marginVertical: 20,}}>
+                  
                     <Text style={styles.title}>Let's get you started!</Text>
                     <Text style={styles.subtitle}>
-                      Your account lets you save and gain access to instant loans without collateral
+                      Your account lets you enjoy security at the tap of a button.
                     </Text>
-                  </View>
+                  
+                  <Text style={styles.errorText}>{Utility.isset(this.props.auth.signup)? this.props.auth.signup.message: (this.props.auth.loading === true? 'Signing up ...': '')}</Text>
                   <Form style={styles.form}>
+                    <Item style={styles.formItem}>
+                      <Input placeholder="Firstname" textContentType="givenName" style={styles.input} value={this.state.firstname} onChangeText={this.onInputChange.bind(this, 'firstname')} />
+                    </Item>
                     <Item style={styles.formItem}>
                       <Input placeholder="Email" textContentType="emailAddress" style={styles.input} value={this.state.email} onChangeText={this.onInputChange.bind(this, 'email')} />
                     </Item>
                     <Item style={styles.formItem}>
-                      <Input placeholder="Phone" textContentType="telephoneNumber" style={styles.input} value={this.state.phone} onChangeText={this.onInputChange.bind(this, 'phone')} />
+                      <Input secureTextEntry={true} textContentType="password" placeholder="Password" style={styles.input} value={this.state.password} onChangeText={this.onInputChange.bind(this, 'password')} />
                     </Item>
                     <Item style={styles.formItem}>
-                      <Input secureTextEntry={true} textContentType="password" placeholder="Password" style={styles.input} value={this.state.password} onChangeText={this.onInputChange.bind(this, 'password')} />
+                      <Input placeholder="Phone" textContentType="telephoneNumber" style={styles.input} value={this.state.phone} onChangeText={this.onInputChange.bind(this, 'phone')} />
                     </Item>
                   </Form>
                 </View>
                 <View style={styles.footer}>
                   <View style={styles.footerItem}>
                     <Button full style={styles.signupBtn} onPress={this.signup.bind(this)}>
-                      <Text style={styles.signupText}>Submit</Text>
+                      <Text style={styles.signupText}>Sign Up</Text>
                     </Button>
                   </View>
                   <View style={styles.footerItem}>
-                    <Button full style={styles.loginBtn}>
+                    <Button full style={styles.loginBtn}
+                    onPress={() => {
+                      this.props.navigation.navigate('SignIn');
+                    }}>
                       <Text style={styles.loginText}>Login</Text>
                     </Button>
                   </View>
                 </View>
               </Content>
+              </KeyboardAwareScrollView>
           </ImageBackground>
       </Container>
       );
@@ -146,9 +173,9 @@ class SignUpScreen extends React.Component {
 
 const styles = StyleSheet.create({
   content: {
-    justifyContent: 'space-between',
-    height: '100%',
-    width: deviceWidth,
+    //justifyContent: 'space-between',
+    //height: '100%',
+    //width: deviceWidth,
   },
   bgImage: {
     display: 'flex',
@@ -186,7 +213,7 @@ const styles = StyleSheet.create({
     //borderStyle: 'solid',
     //borderWidth: 2,
     overflow: 'hidden',
-    marginTop: 40,
+    marginTop: 20,
     justifyContent: 'center',
   },
   formItem: {
@@ -218,7 +245,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   wrapper: {
-    flex: 1,
+    //flex: 1,
     padding: 25,
     marginBottom: 40,
   },
@@ -231,7 +258,39 @@ const styles = StyleSheet.create({
   subtitle: {
     color: '#5B4034',
     fontSize: 14,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    margin: 20,
+    fontSize: 18,
   }
 });
 
-export default SignUpScreen;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleSignup: form => {
+      dispatch(authActions.handleSignup(form));
+    },
+    clearSignin: form => {
+      dispatch(authActions.signin(form));
+    },
+    addVerifyCode: code => {
+      dispatch(authActions.verify(code));
+    },
+    getVerifyCode: code => {
+      dispatch(authActions.getVerifyCode(code));
+    },
+    clearSignup: () => {
+      dispatch(authActions.addSignup({}));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);

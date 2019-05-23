@@ -22,27 +22,27 @@ const get = (url, options={}) => {
     if(options) {
         options = {...headers, ...options}
     }
+    console.log(URL.BASE + url)
     return axios.get(URL.BASE + url, {headers: options});
 }
 
 const post = (url, data, options={}) => {
-    console.log(URL.BASE + url)
     optionsim = {...headers, ...options}
-    
+    console.log(URL.BASE + url)
     return axios.post(URL.BASE + url, data, {headers: optionsim});
 } 
 
 const authPost = (url, data, token) => {
     const authToken = {Authorization: 'Bearer ' + token};
     const options = {...headers, ...authToken}
-    
+    console.log(URL.BASE + url)
     return axios.post(URL.BASE + url, data, {headers: options});
 }
 
 const authGet = (url, token) => {
     const authToken = {Authorization: 'Bearer ' + token};
     const options = {...headers, ...authToken}
-    console.log(options)
+    console.log(URL.BASE + url)
     return axios.get(URL.BASE + url, {headers: options});
 }
 

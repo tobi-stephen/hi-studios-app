@@ -106,7 +106,9 @@ class IntroScreen extends React.Component {
                                 <TouchableOpacity onPress={this.updateCurrentScreen.bind(this)}>
                                     <Image onPress={this.updateCurrentScreen.bind(this)} source={require(nextButton)} />
                                 </TouchableOpacity>
-                                <Button transparent primary style={styles.skip}>
+                                <Button transparent primary 
+                                onPress={() => this.props.navigation.navigate('SignIn')}
+                                style={styles.skip}>
                                     <Text>Skip</Text>
                                 </Button>
                             </View>

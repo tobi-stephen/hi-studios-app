@@ -6,7 +6,6 @@ const store = async (key, value) => {
     } catch (error) {
         return new Error("Error occured while storing the item with key: " + key + " and value: " + value);
     }
-    return true;
 };
 
 const retrieve = async key => {
@@ -36,7 +35,7 @@ const pop = async key => {
 
 const loadState = () => {
     try {
-        const serializedState = retrieve('state');
+        const serializedState = retrieve('state');console.log(serializedState, JSON.parse(serializedState));
         if(serializedState === null) {
             return undefined;
         }

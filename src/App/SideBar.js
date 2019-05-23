@@ -1,5 +1,6 @@
 import React from "react";
 import { AppRegistry, Image, StatusBar } from "react-native";
+import { connect } from 'react-redux';
 import {
   Button,
   Text,
@@ -11,17 +12,23 @@ import {
   View,
   H4,
 } from "native-base";
+import authActions from "../redux/auth/actions";
 const routes = [
-    { label: "Profile", icon: 'md-calendar'}, 
-    { label: "My Location", icon: 'ios-recording'},
-    { label: "Circle of Six", icon: 'ios-notifications'},
-    //{ label: "Gallery", icon: 'ios-cloud-outline'},
-    { label: "Find a member", icon: 'paper'},
-    { label: "Help", icon: 'paper'},
+    { label: "Dashboard", icon: 'md-calendar', route: 'Home'}, 
+    { label: "My Location", icon: 'ios-recording', 'route': 'MyLocation'},
+    { label: "Circle of Six", icon: 'ios-notifications', route: 'MyCircles'},
+    { label: "CircleGeofence", icon: 'ios-cloud-outline', route: "CircleGeofence"},
+    //{ label: "Find a member", icon: 'paper'},
+    { label: "Help", icon: 'paper', route: 'Help'},
+    { label: "Logout", icon: 'clock', route: 'Logout'}
 ];
 const bursarImg = './../Assets/Images/bursar-white.png';
 
-export default class SideBar extends React.Component {
+class SideBar extends React.Component {
+  handleLogout = () => {
+    this.props.logout();
+    this.props.navigation.navigate('SignIn');
+  }
   render() {
     return (
       <Container>
@@ -43,7 +50,14 @@ export default class SideBar extends React.Component {
               return (
                 <ListItem
                   button
-                  onPress={() => this.props.navigation.navigate(data.label)}
+                  onPress={() => {
+                    if(data.label === "Logout") {
+                      this.handleLogout();
+                    } else {
+                      this.props.navigation.navigate(data.route)
+                    }
+                  }
+                }
                 >
                     <Icon active name={data.icon} />
                     <Text style={{marginLeft: 12,}}>{data.label}</Text>
@@ -56,3 +70,19 @@ export default class SideBar extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => {
+      dispatch(authActions.handleLogout());
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

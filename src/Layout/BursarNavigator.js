@@ -12,13 +12,26 @@ import BiodataScreen from '../Auth/BiodataScreen';
 import AddressScreen from '../Auth/AddressScreen';
 import NextOfKinScreen from '../Auth/NextOfKinScreen';
 import BankAccountScreen from '../Auth/BankAccountScreen';
+import VerifyScreen from '../Auth/VerifyScreen';
+import Co6Screen from '../Auth/Co6Screen';
+import SelectorModalScreen from '../Auth/SelectorModalScreen';
+import MyLocationScreen from '../App/MyLocationScreen';
+import MyCirclesScreen from '../App/MyCirclesScreen';
+import CircleDetailScreen from '../App/CircleDetailScreen';
+import CircleGeofence from '../App/CircleGeofence';
+import ChooseOrganizationScreen from '../App/ChooseOrganizationScreen';
 // Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
 // goes here.
 
 const AppStack = createDrawerNavigator(
   { 
     Home: HomeScreen, 
-    Activity: ActivityScreen 
+    Activity: ActivityScreen,
+    MyLocation: MyLocationScreen,
+    MyCircles: MyCirclesScreen,
+    CircleDetail: CircleDetailScreen,
+    CircleGeofence: CircleGeofence,
+    ChooseOrganization: ChooseOrganizationScreen,
   },
   {
     contentComponent: SideBar,
@@ -42,15 +55,26 @@ const AuthStack = createStackNavigator({
     Address: AddressScreen,
     NextOfKin: NextOfKinScreen,
     BankAccount: BankAccountScreen,
+    Verify: VerifyScreen,
+    Co6: Co6Screen,
   }, 
   { initialRouteName: 'AuthLink'}
 );
+
+const AuthStackWithModal = createStackNavigator({
+  MainAuthStack: AuthStack,
+  SelectorModal: SelectorModalScreen,
+},
+{
+  mode: 'modal',
+  headerMode: 'none',
+});
 
 const BursarNavigator = createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
-    Auth: AuthStack,
+    Auth: AuthStackWithModal,
     Intro: IntroStack,
   },
   {
