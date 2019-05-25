@@ -34,7 +34,12 @@ const addCo6s = co6ById => ({
 const setAccessToken = access_token => ({
     type: types.AUTH_SET_ACCESS_TOKEN,
     access_token,
-})
+});
+
+const setOrgId = organization_id => ({
+    type: types.AUTH_SET_ORG_ID,
+    organization_id,
+});
 
 const getVerifyCode = code => dispatch => {
     dispatch(setLoading(true));

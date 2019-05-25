@@ -79,7 +79,7 @@ class VerifyScreen extends React.Component {
   
     render() {
       if(this.state.redirect && this.props.auth.onboard.error === false) {
-        this.props.navigation.navigate('SignUp', {organization_id: this.props.auth.onboard.data.organization_id});
+        this.props.navigation.navigate('SignUp', {organization_id: this.props.auth.onboard.organization_id});
       }
       
       return (

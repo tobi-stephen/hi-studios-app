@@ -5,3 +5,4 @@ export const AUTH_SIGNUP_DATA = "AUTH_SIGNUP_DATA";
 export const AUTH_LOADING = "AUTH_LOADING";
 export const AUTH_ADD_CO6S = "AUTH_ADD_CO6S";
 export const AUTH_SET_ACCESS_TOKEN = "AUTH_SET_ACCESS_TOKEN";
+export const AUTH_SET_ORG_ID = "AUTH_SET_ORG_ID";
