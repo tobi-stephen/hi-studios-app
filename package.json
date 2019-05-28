@@ -21,6 +21,8 @@
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-location": "^2.2.0",
     "react-native-maps": "^0.24.2",
+    "react-native-onboarding-swiper": "^1.1.0",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.9.1",
     "react-redux": "^7.0.3",
     "redux": "^4.0.1",

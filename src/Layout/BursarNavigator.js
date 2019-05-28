@@ -2,7 +2,7 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer, create
 import HomeScreen from './../App/HomeScreen';
 import SignInScreen from './../Auth/SignInScreen';
 import AuthLoadingScreen from './../Auth/AuthLoadingScreen';
-import IntroScreen from './../Intro/IntroScreen';
+import IntroScreen from './../Intro/HiIntroScreen';
 import SignUpScreen from './../Auth/SignUpScreen';
 import AuthLinkScreen from '../Auth/AuthLinkScreen';
 import ActivityScreen from '../App/ActivityScreen';
@@ -46,7 +46,11 @@ const AppStack = createDrawerNavigator(
     }
   }
 );
-const IntroStack = createStackNavigator({ IntroScreen: IntroScreen })
+const IntroStack = createStackNavigator({ 
+    IntroScreen: IntroScreen 
+}, {
+    headerMode: 'none'
+})
 const AuthStack = createStackNavigator({ 
     SignIn: SignInScreen, 
     SignUp: SignUpScreen, 

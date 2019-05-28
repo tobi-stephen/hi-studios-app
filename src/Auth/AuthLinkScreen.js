@@ -6,6 +6,7 @@ const deviceWidth = Dimensions.get("window").width;
 
 const signupBg = './../Assets/Images/auth/login-bg.png';
 const logo = './../Assets/Images/e-pub-logo.png';
+const hilogo = '../Assets/hi-studio/logo.png';
 
 class AuthLinkScreen extends React.Component {
     static navigationOptions = {
@@ -22,8 +23,8 @@ class AuthLinkScreen extends React.Component {
           >
               <Content contentContainerStyle={styles.content}>
                 <View style={styles.topView}>
-                  <Image source={require(logo)} />
-                  <Text style={styles.introText}>Security at the click of the mouse</Text>
+                  <Image source={require(hilogo)} />
+                  <Text style={styles.introText}>Nigeria's First Full HD Television Station</Text>
                 </View>
                 <View style={styles.controls}>
                   <Button block large onPress={() => this.props.navigation.navigate('SignIn')} style={styles.outlined}>

@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  ToastAndroid as T
 } from 'react-native';
 import Auth from '../Services/Auth';
 
