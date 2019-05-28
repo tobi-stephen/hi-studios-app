@@ -1,5 +1,6 @@
 import { Image, Dimensions } from 'react-native';
 import React from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import Onboarding from 'react-native-onboarding-swiper';
 const {height, width } = Dimensions.get('window')
@@ -36,7 +37,7 @@ const OnboardComponent = (props) => (
 class IntroScreen extends React.Component {
     
     componentDidMount(){
-        
+        SplashScreen.hide();
     }
 
     render () {

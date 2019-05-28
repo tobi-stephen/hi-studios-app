@@ -3,6 +3,7 @@ package com.epublicsafetyapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.surialabs.rn.geofencing.GeoFencingPackage;
 import com.github.reactnativecommunity.location.RNLocationPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
             new VectorIconsPackage(),
             new GeoFencingPackage(),
             new RNLocationPackage(),
