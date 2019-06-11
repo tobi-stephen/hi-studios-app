@@ -62,7 +62,7 @@ const AuthStack = createStackNavigator({
     Verify: VerifyScreen,
     Co6: Co6Screen,
   }, 
-  { initialRouteName: 'SignIn'}
+  { initialRouteName: 'AuthLink'}
 );
 
 const AuthStackWithModal = createStackNavigator({

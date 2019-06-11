@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Button, Label, Container, Content, Text, H1, Input, Form, Item } from 'native-base';
-import { StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { Icon, Header, Title, Left, Body, Right, View, Button, Label, Container, Content, Text, H1, Input, Form, Item } from 'native-base';
+import { StatusBar, StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import authActions from '../../redux/auth/actions';
 import { connect } from 'react-redux';
 import Auth from '../../Services/Auth';
@@ -15,21 +15,33 @@ const loginBg = './../../Assets/Images/auth/login-bg.png';
 // distributionUrl=https\://services.gradle.org/distributions/gradle-4.7-all.zip
 
 class SignInScreen extends React.Component {
-  static navigationOptions = {
-	title: 'Login',
-	headerStyle: {
-		backgroundColor: "#000",
-	},
-	headerTintColor: '#000',
-	headerTitleStyle: {
-		fontWeight: 'bold',
-		color: "white"
-	  },
-	headerRight: (
-		<Button onPress={() => alert("HELP COMING SOON")} style={{backgroundColor: "#000"}}>
-			<Text style={{paddingTop: 20, fontWeight: "bold", fontSize: 20,  color: "white"}}>Help</Text>
-		</Button>
-	)
+  static navigationOptions = ({ navigation }) => {
+	
+	return {
+		header: (
+		<Header
+			style={{ backgroundColor: "#000" }}>
+			<StatusBar animated={true} backgroundColor={"#000"}/>
+			<Left>
+				<Button
+					transparent
+					onPress={() => navigation.goBack()}>
+					<Icon name="md-arrow-back" />
+				</Button>
+			</Left>
+			<Body>
+				<Title>
+					Sign In
+				</Title>
+			</Body>
+			<Right>
+				<Button onPress={() => alert("HELP COMING SOON")} style={{backgroundColor: "#000"}}>
+					<Text style={{paddingTop: 20, fontWeight: "bold", fontSize: 20,  color: "white"}}>Help</Text>
+				</Button>
+			</Right>
+		</Header> 
+		)
+	}
   };
 
   constructor(props) {
@@ -104,8 +116,10 @@ class SignInScreen extends React.Component {
               source={require(loginBg)}
               imageStyle={{resizeMode: 'stretch'}}
               style={styles.bgImage}
-          > */}
-            <KeyboardAwareScrollView>
+		  > */}
+		  <KeyboardAwareScrollView>
+			  
+            
               <Content contentContainerStyle={styles.content}>
 
               <View style={styles.formView}>
