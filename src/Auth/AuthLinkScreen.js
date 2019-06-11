@@ -17,8 +17,8 @@ class AuthLinkScreen extends React.Component {
       return (
         <Container style={styles.container}>
           <ImageBackground
-              source={require(signupBg)}
-              imageStyle={{resizeMode: 'stretch'}}
+              source={require('../Assets/wet/2.png')}
+              imageStyle={{resizeMode: 'cover'}}
               style={styles.bgImage}
           >
               <Content contentContainerStyle={styles.content}>
@@ -27,12 +27,19 @@ class AuthLinkScreen extends React.Component {
                   <Text style={styles.introText}>Nigeria's First Full HD Television Station</Text>
                 </View>
                 <View style={styles.controls}>
-                  <Button block large onPress={() => this.props.navigation.navigate('SignIn')} style={styles.outlined}>
-                    <Text style={{color: '#5b696c', textTransform: 'capitalize'}}>Login</Text>
+				  <Button 
+					  block 
+					  large 
+					  onPress={() => this.props.navigation.navigate('SignIn')} 
+					  style={styles.outlined}>
+                    <Text style={{color: 'white', textTransform: 'capitalize'}}>Sign In</Text>
                   </Button>
                   <Button
                     onPress={() => this.props.navigation.navigate('Verify')}
-                    block primary large style={styles.filled}>
+					block 
+					primary 
+					large 
+					style={styles.filled}>
                     <Text style={{textTransform: 'capitalize'}}>Sign up</Text>
                   </Button>
                 </View>
@@ -68,27 +75,29 @@ const styles = StyleSheet.create({
   },
   controls: {
     position: 'absolute',
-    bottom: 2,
+    bottom: 0,
     flex: 1,
-    width: deviceWidth * 0.8,
+    width: deviceWidth * 0.9,
   },
   outlined: {
-    borderColor: '#5b696c',
-    borderWidth: 2,
-    marginBottom: 10,
+    // borderColor: '#5b696c',
+    // borderWidth: 2,
+    marginBottom: 20,
     color: '#5b696c',
     textTransform: 'capitalize',
-    backgroundColor: 'transparent',
+    backgroundColor: 'blue',
   },
   filled: {
-    backgroundColor: '#5b696c',
+    backgroundColor: 'red',
   },
   topView: {
     alignItems: 'center'
   },
   introText: {
-    fontSize: 20,
-    marginTop: 20,
+    fontSize: 30,
+	margin: 20,
+	textAlign: 'center',
+	color: 'white'
   }
 });
 

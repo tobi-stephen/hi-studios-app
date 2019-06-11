@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Container, Content, Text, H1, Input, Form, Item } from 'native-base';
+import { View, Button, Label, Container, Content, Text, H1, Input, Form, Item } from 'native-base';
 import { StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import authActions from '../../redux/auth/actions';
 import { connect } from 'react-redux';
@@ -16,7 +16,20 @@ const loginBg = './../../Assets/Images/auth/login-bg.png';
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
-    title: 'Login',
+	title: 'Login',
+	headerStyle: {
+		backgroundColor: "#000",
+	},
+	headerTintColor: '#000',
+	headerTitleStyle: {
+		fontWeight: 'bold',
+		color: "white"
+	  },
+	headerRight: (
+		<Button onPress={() => alert("HELP COMING SOON")} style={{backgroundColor: "#000"}}>
+			<Text style={{paddingTop: 20, fontWeight: "bold", fontSize: 20,  color: "white"}}>Help</Text>
+		</Button>
+	)
   };
 
   constructor(props) {
@@ -87,25 +100,27 @@ class SignInScreen extends React.Component {
       
       return (
         <Container style={styles.container}>
-          <ImageBackground
+          {/* <ImageBackground
               source={require(loginBg)}
               imageStyle={{resizeMode: 'stretch'}}
               style={styles.bgImage}
-          >
+          > */}
             <KeyboardAwareScrollView>
               <Content contentContainerStyle={styles.content}>
 
               <View style={styles.formView}>
                 <Text style={styles.errorText}>{Utility.isset(this.props.signin)? this.props.signin.message: 'error holder'}</Text>
                 <Form style={styles.form}>
-                  <Item style={styles.inputItem}>
-                    <Input bordered placeholder="Email" textContentType="emailAddress" style={{color: '#5b696c',}}
+                  <Item floatingLabel rounded  style={styles.input}>
+					  <Label style={{paddingLeft: 10, color: "#fff"}}>Email or Phone number</Label>
+                    <Input selectionColor={"black"} keyboardType={'email-address'} style={{color: '#fff',}}
                       onChangeText={this.handleChange('username')}
                       value={this.state.username}
                     />
                   </Item>
-                  <Item style={styles.inputPassword}>
-                    <Input outlined secureTextEntry={true} placeholder="Password"  style={{color: '#5b696c',}}
+                  <Item floatingLabel rounded style={styles.input}>
+					  <Label style={{paddingLeft: 10, color:'#fff'}}>Password</Label>
+                    <Input selectionColor={"black"} secureTextEntry={true} style={{color: '#fff',}}
                       onChangeText={this.handleChange('password')}
                       value={this.state.password}
                     />
@@ -114,21 +129,19 @@ class SignInScreen extends React.Component {
                 <View style={styles.controls}>
                   <Button rounded style={styles.loginBtn} 
                     onPress={this.handleLogin.bind(this)}
-                  ><Text style={styles.loginText}>Login</Text></Button>
-                  <TouchableOpacity style={{cursor: 'pointer'}}>
-                    <Text style={{color: '#5b696c',}}>Forgot password?</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.register}>
-                <Text>Not registered? </Text>
-                <Button transparent 
-                  onPress={() => this.props.navigation.navigate('Verify')}
-                  style={styles.registerBtn}><Text style={styles.registerText}>Register</Text></Button> 
+                  >
+					  <Text style={styles.loginText}>Sign In</Text>
+				  </Button>
+				  <Button rounded style={styles.forgotPass} 
+                    onPress={this.handleLogin.bind(this)}
+                  >
+					  <Text style={styles.loginText}>Forgot Password</Text>
+				  </Button>
                 </View>                
               </View>
               </Content>
               </KeyboardAwareScrollView>
-          </ImageBackground> 
+          {/* </ImageBackground>  */}
       </Container>
       );
     }
