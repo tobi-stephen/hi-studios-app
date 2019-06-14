@@ -8,12 +8,38 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   container: {
-    // position: 'absolute',
-    // top: 0,
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
-    backgroundColor: '#000',
+	backgroundColor: '#000',
+
+  },
+  content: {
+	alignItems: 'center',	
+	height: "100%",
+  },
+  formView: {
+	width: deviceWidth * 0.9,
+  },
+  form: {
+	borderColor: '#fff',
+	borderStyle: 'solid',
+	borderRadius: 10,
+  },
+  label: {
+	paddingLeft: 10, 
+	color: "#fff"
+  },
+  input: {
+	margin: 10,
+	marginRight: 0,
+	marginBottom: 20,
+  height: 80,
+	borderColor: '#000',
+	borderStyle: 'solid',
+	color: '#fff',
+	borderRadius: 10,
+	backgroundColor: 'grey'
+  },
+  textInput: {
+	color: '#fff',
   },
   shadow: {
     flex: 1,
@@ -29,22 +55,12 @@ export default {
     paddingBottom: 30,
     bottom: 0,
   },
-  input: {
-    marginBottom: 20,
-  },
+
   btn: {
     marginTop: 20,
     alignSelf: 'center',
   },
-    content: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%',
-      position: 'relative',
-      padding: 0,
-      margin: 0,
-      width: deviceWidth,
-    },
+    
     bgImage: {
       display: 'flex',
       justifyContent: 'center',
@@ -52,32 +68,8 @@ export default {
       width: '100%',
       flex: 1,
     },
-    formView: {
-      width: deviceWidth * 0.9,
-      //borderColor: '#64493c',
-      //borderStyle: 'solid',
-      //borderWidth: 1,
-    //   padding: 10,
-      //borderRadius: 20,
-    },
-    form: {
-      //flex: 1,
-      borderColor: '#fff',
-      borderStyle: 'solid',
-    //   borderWidth: 1,
-    //   paddingTop: 80,
-      borderRadius: 10,
-    },
-    input: {
-	  margin: 10,
-	  marginRight: 0,
-	  paddingLeft:5,
-      borderColor: '#000',
-      borderStyle: 'solid',
-	  color: '#fff',
-	  borderRadius: 10,
-	  backgroundColor: 'grey'
-	},
+    
+
     register: {
       display: 'flex',
       justifyContent: 'center',
@@ -94,24 +86,18 @@ export default {
       textTransform: 'capitalize',
     },
     controls: {
-
-	paddingTop: 10,
-    //   display: 'flex',
-    //   flexDirection: 'column',
+	marginTop: 10,
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      
     },
     loginBtn: {
 	  backgroundColor: '#000',
-	//   flex: 2,
 	  width: "100%",
-	// width: deviceWidth,
-	  height: 50,
+	  height: 70,
 	  borderColor: '#fff',
 	  borderStyle: 'solid',
 	  borderRadius: 10,
-	//   marginBottom: 10,
 	  
 	borderWidth: 0.5,
 	justifyContent: 'center',
@@ -119,9 +105,7 @@ export default {
 	
     loginText: {
       color: '#fff',
-	  display: 'flex',
-	//   height: 70,
-	// padding: 10,
+	padding: 20,
 	  fontSize: 20,
 	},
 	forgotPass: {
@@ -130,18 +114,16 @@ export default {
 		width: "100%",
 		height: 50,
 		borderColor: '#fff',
-		// borderStyle: 'solid',
 		borderRadius: 10,
 		marginTop: 10,
 		paddingTop: 10,
-		
-	//   borderWidth: 0.5,
 	  justifyContent: 'center',
 	  },
     errorText: {
       color: 'red',
       textAlign: 'center',
       margin: 20,
-      fontSize: 20,
+	  fontSize: 20,
+	  height: '10%'
     }
 };

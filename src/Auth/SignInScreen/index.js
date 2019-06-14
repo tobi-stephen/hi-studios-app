@@ -19,27 +19,26 @@ class SignInScreen extends React.Component {
 	
 	return {
 		header: (
-		<Header
-			style={{ backgroundColor: "#000" }}>
-			<StatusBar animated={true} backgroundColor={"#000"}/>
-			<Left>
-				<Button
-					transparent
-					onPress={() => navigation.goBack()}>
-					<Icon name="md-arrow-back" />
-				</Button>
-			</Left>
-			<Body>
-				<Title>
-					Sign In
-				</Title>
-			</Body>
-			<Right>
-				<Button onPress={() => alert("HELP COMING SOON")} style={{backgroundColor: "#000"}}>
-					<Text style={{paddingTop: 20, fontWeight: "bold", fontSize: 20,  color: "white"}}>Help</Text>
-				</Button>
-			</Right>
-		</Header> 
+			<View 
+				style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: "#000", height: "15%"}}
+				>
+				<View style={{ justifyContent: 'center', width: "15%", }}>
+						<Button
+							transparent
+							onPress={() => navigation.goBack()}>
+							<Icon style={{color: '#fff'}} name="md-arrow-back" />
+						</Button>
+				</View>
+				<View style={{ width: "60%", paddingTop: 40}}>
+					<Image style={{ alignSelf: 'center', }} resizeMode={'stretch'}  source={require('../../Assets/hi-studio/logo.png')} />
+
+				</View>
+				<View style={{ width: 100, justifyContent: 'center',}}>
+					<Button onPress={() => alert("HELP COMING SOON")} style={{alignSelf: 'center', backgroundColor: "#000"}}>
+						<Text style={{paddingTop: 20, fontSize: 20,  color: "white"}}>Help</Text>
+					</Button>
+				</View>
+			</View>
 		)
 	}
   };
@@ -117,23 +116,21 @@ class SignInScreen extends React.Component {
               imageStyle={{resizeMode: 'stretch'}}
               style={styles.bgImage}
 		  > */}
-		  <KeyboardAwareScrollView>
-			  
-            
+		  {/* <KeyboardAwareScrollView> */}
               <Content contentContainerStyle={styles.content}>
 
               <View style={styles.formView}>
                 <Text style={styles.errorText}>{Utility.isset(this.props.signin)? this.props.signin.message: 'error holder'}</Text>
                 <Form style={styles.form}>
                   <Item floatingLabel rounded  style={styles.input}>
-					  <Label style={{paddingLeft: 10, color: "#fff"}}>Email or Phone number</Label>
-                    <Input selectionColor={"black"} keyboardType={'email-address'} style={{color: '#fff',}}
+					  <Label style={styles.label}>Email or Phone number</Label>
+                    <Input selectionColor={"black"}  keyboardType={'email-address'} style={styles.textInput}
                       onChangeText={this.handleChange('username')}
                       value={this.state.username}
                     />
                   </Item>
                   <Item floatingLabel rounded style={styles.input}>
-					  <Label style={{paddingLeft: 10, color:'#fff'}}>Password</Label>
+					  <Label style={styles.label}>Password</Label>
                     <Input selectionColor={"black"} secureTextEntry={true} style={{color: '#fff',}}
                       onChangeText={this.handleChange('password')}
                       value={this.state.password}
@@ -154,7 +151,7 @@ class SignInScreen extends React.Component {
                 </View>                
               </View>
               </Content>
-              </KeyboardAwareScrollView>
+              {/* </KeyboardAwareScrollView> */}
           {/* </ImageBackground>  */}
       </Container>
       );
